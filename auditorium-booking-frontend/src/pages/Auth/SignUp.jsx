@@ -145,7 +145,7 @@ const SignUp = () => {
                 >
                   <MenuItem value="FACULTY">Faculty</MenuItem>
                   <MenuItem value="ADMIN">Admin</MenuItem>
-                  <MenuItem value="HOD">HOD</MenuItem>
+                  <MenuItem value="STUDENT">Student</MenuItem>
                 </Select>
               </FormControl>
             </div>
