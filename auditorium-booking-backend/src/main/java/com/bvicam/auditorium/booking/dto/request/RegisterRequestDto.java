@@ -30,8 +30,8 @@ public class RegisterRequestDto {
     private String department;
 
     @Pattern(
-            regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$",
-            message = "Password must contain letters and numbers"
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$",
+            message = "Password must be 8+ chars with upper, lower, number & special character"
     )
     @NotBlank(message = "Password is required")
     private String password;
