@@ -23,7 +23,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<AuthResponseDto> register(
             @Valid @RequestBody RegisterRequestDto request) {
-
+        System.out.println("Register request Called");
         AuthResponseDto response = authService.register(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

@@ -3,6 +3,7 @@ package com.bvicam.auditorium.booking.service.impl;
 import com.bvicam.auditorium.booking.dto.request.LoginRequestDto;
 import com.bvicam.auditorium.booking.dto.request.RegisterRequestDto;
 import com.bvicam.auditorium.booking.dto.response.AuthResponseDto;
+import com.bvicam.auditorium.booking.exception.BadRequestException;
 import com.bvicam.auditorium.booking.mapper.AuthMapper;
 import com.bvicam.auditorium.booking.model.User;
 import com.bvicam.auditorium.booking.repository.UserRepository;
@@ -26,11 +27,11 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponseDto register(RegisterRequestDto request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already registered");
+            throw new BadRequestException("Email already registered");
         }
 
         if (userRepository.existsByPhone(request.getPhone())) {
-            throw new RuntimeException("Phone already registered");
+            throw new BadRequestException("Phone already registered");
         }
 
         User user = authMapper.toUser(request);
@@ -48,14 +49,14 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponseDto login(LoginRequestDto request) {
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+                .orElseThrow(() -> new BadRequestException("Invalid email or password"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid email or password");
+            throw new BadRequestException("Invalid email or password");
         }
 
         if (!user.isEnabled()) {
-            throw new RuntimeException("Account not approved yet");
+            throw new BadRequestException("Account not approved yet");
         }
 
         String token = jwtUtil.generateToken(user.getEmail());
