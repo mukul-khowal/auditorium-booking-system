@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AuthResponseDto {
 
-    private Long id;
     private String name;
     private String email;
     private String phone;
@@ -20,5 +19,5 @@ public class AuthResponseDto {
     private String institute;
     private String department;
     private boolean enabled;
-    // later → private String token;
+    private String token;
 }

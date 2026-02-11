@@ -7,6 +7,7 @@ import com.bvicam.auditorium.booking.mapper.AuthMapper;
 import com.bvicam.auditorium.booking.model.User;
 import com.bvicam.auditorium.booking.repository.UserRepository;
 import com.bvicam.auditorium.booking.service.AuthService;
+import com.bvicam.auditorium.booking.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthMapper authMapper;
+    private final JwtUtil jwtUtil;
+
 
     @Override
     public AuthResponseDto register(RegisterRequestDto request) {
@@ -32,10 +35,13 @@ public class AuthServiceImpl implements AuthService {
 
         User user = authMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-
+        user.setEnabled(true);
         User savedUser = userRepository.save(user);
+        String token = jwtUtil.generateToken(savedUser.getEmail());
 
-        return authMapper.toAuthResponse(savedUser);
+        AuthResponseDto response = authMapper.toAuthResponse(savedUser);
+        response.setToken(token);
+        return response;
     }
 
     @Override
@@ -52,6 +58,10 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Account not approved yet");
         }
 
-        return authMapper.toAuthResponse(user);
+        String token = jwtUtil.generateToken(user.getEmail());
+
+        AuthResponseDto response = authMapper.toAuthResponse(user);
+        response.setToken(token);
+        return response;
     }
 }

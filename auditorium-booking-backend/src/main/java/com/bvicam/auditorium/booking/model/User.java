@@ -46,7 +46,7 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private boolean enabled = false;
+    private boolean enabled = true;
 
     @CreationTimestamp
     @Column(updatable = false)
