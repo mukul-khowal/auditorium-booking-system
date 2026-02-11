@@ -5,6 +5,7 @@ import SignUp from "./pages/Auth/SignUp";
 import Home from "./pages/Dashboard/Home";
 import NotFound from "./pages/NotFound";
 import { Toaster } from "react-hot-toast";
+import UserProvider from "./context/UserContext";
 
 const App = () => {
   return (
