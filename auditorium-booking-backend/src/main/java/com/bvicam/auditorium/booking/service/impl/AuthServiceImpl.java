@@ -3,6 +3,7 @@ package com.bvicam.auditorium.booking.service.impl;
 import com.bvicam.auditorium.booking.dto.request.LoginRequestDto;
 import com.bvicam.auditorium.booking.dto.request.RegisterRequestDto;
 import com.bvicam.auditorium.booking.dto.response.AuthResponseDto;
+import com.bvicam.auditorium.booking.dto.response.UserResponseDto;
 import com.bvicam.auditorium.booking.exception.BadRequestException;
 import com.bvicam.auditorium.booking.mapper.AuthMapper;
 import com.bvicam.auditorium.booking.model.User;
@@ -64,5 +65,14 @@ public class AuthServiceImpl implements AuthService {
         AuthResponseDto response = authMapper.toAuthResponse(user);
         response.setToken(token);
         return response;
+    }
+
+    @Override
+    public UserResponseDto getMyProfile(String email) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new BadRequestException("User not found"));
+
+        return authMapper.toUserResponse(user);
     }
 }

@@ -24,6 +24,7 @@ public class JwtUtil {
     }
 
     public String generateToken(String email) {
+
         return Jwts.builder()
                 .subject(email)
                 .issuedAt(new Date())

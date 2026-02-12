@@ -3,15 +3,14 @@ package com.bvicam.auditorium.booking.controller;
 import com.bvicam.auditorium.booking.dto.request.LoginRequestDto;
 import com.bvicam.auditorium.booking.dto.request.RegisterRequestDto;
 import com.bvicam.auditorium.booking.dto.response.AuthResponseDto;
+import com.bvicam.auditorium.booking.dto.response.UserResponseDto;
 import com.bvicam.auditorium.booking.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -35,4 +34,15 @@ public class AuthController {
         AuthResponseDto response = authService.login(request);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserResponseDto> getMyProfile(
+            Authentication authentication) {
+
+        String email = authentication.getName();
+        UserResponseDto response = authService.getMyProfile(email);
+
+        return ResponseEntity.ok(response);
+    }
+
 }
