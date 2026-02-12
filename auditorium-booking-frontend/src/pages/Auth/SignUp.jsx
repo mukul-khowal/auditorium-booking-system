@@ -10,11 +10,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import AuthLayout from "../../components/layouts/AuthLayout";
-import {
-  institutions,
-  InstitutionList,
-  DepartmentList,
-} from "../../utils/Institutions.js";
+import { institutions, InstitutionList } from "../../utils/Institutions.js";
 import { API_PATHS } from "../../utils/apiPaths.js";
 import axiosInstance from "../../utils/axiosInstance.js";
 import { validateEmail } from "../../utils/helper.js";
@@ -58,37 +54,31 @@ const SignUp = () => {
     if (!name || !email || !password || !userType)
       return setError("Please fill all required fields");
 
-    if (!validateEmail(email))
-      return setError("Invalid email address");
+    if (!validateEmail(email)) return setError("Invalid email address");
 
-    if (password !== cpassword)
-      return setError("Passwords do not match");
+    if (password !== cpassword) return setError("Passwords do not match");
 
     setLoading(true);
     setError("");
 
     try {
-      const response = await axiosInstance.post(
-        API_PATHS.AUTH.REGISTER,
-        {
-          name,
-          email,
-          phone,
-          role: userType.toUpperCase(),
-          institute: institution,
-          department,
-          password,
-        }
-      );
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        name,
+        email,
+        phone,
+        role: userType.toUpperCase(),
+        institute: institution,
+        department,
+        password,
+      });
 
-      if (response.status === 201 || response.data.token) {
+      if (response.status === 201) {
         navigate("/login");
-      }
-
+      };
+      
     } catch (err) {
       setError(
-        err.response?.data?.message ||
-        "Registration failed. Please try again."
+        err.response?.data?.message || "Registration failed. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -97,14 +87,14 @@ const SignUp = () => {
 
   return (
     <AuthLayout>
-      <section className="text-gray-600 body-font min-h-screen flex items-center justify-center bg-transparent">
+      <section className="text-gray-600 body-font w-screen h-screen flex items-center justify-center bg-transparent">
         <div className="w-full max-w-lg bg-white shadow-2xl shadow-blue-100 rounded-xl p-8 flex flex-col">
           <form onSubmit={PostData}>
             <h3 className="text-3xl mb-6 font-extrabold tracking-tight text-gray-900">
               Sign <span className="text-indigo-600">Up</span>
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div className="grid grid-cols-2 gap-4 mb-4">
               <TextField
                 fullWidth
                 label="Full Name"
@@ -180,7 +170,7 @@ const SignUp = () => {
                       {institutions
                         .find(
                           (inst) =>
-                            inst.name === InstitutionList[user.institution]
+                            inst.name === InstitutionList[user.institution],
                         )
                         ?.departments.map((dept, idx) => (
                           <MenuItem key={idx} value={dept}>
@@ -218,9 +208,7 @@ const SignUp = () => {
             </div>
 
             {error && (
-              <p className="text-red-500 text-sm font-bold mb-4">
-                {error}
-              </p>
+              <p className="text-red-500 text-sm font-bold mb-4">{error}</p>
             )}
 
             <Button
