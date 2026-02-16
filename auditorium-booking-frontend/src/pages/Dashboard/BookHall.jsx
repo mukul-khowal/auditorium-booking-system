@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { UserContext } from "../../context/UserContext";
-import { TextField, Button, MenuItem } from "@mui/material";
 
 const BookHall = () => {
   const { hallId } = useParams();
@@ -78,93 +77,172 @@ const BookHall = () => {
         onSubmit={handleSubmit}
         className="grid grid-cols-1 md:grid-cols-2 gap-6"
       >
-        <TextField
-          label="Event Coordinator Name"
-          name="coordinatorName"
-          value={formData.coordinatorName}
-          disabled
-        />
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Event Coordinator Name
+          </label>
+          <input
+            type="text"
+            name="coordinatorName"
+            value={formData.coordinatorName}
+            disabled
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+          />
+        </div>
 
-        <TextField
-          label="Event Name"
-          name="eventName"
-          value={formData.eventName}
-          onChange={handleChange}
-          required
-        />
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Event Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            name="eventName"
+            value={formData.eventName}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+          />
+        </div>
 
-        <TextField
-          label="Organizing Club"
-          name="organizingClub"
-          value={formData.organizingClub}
-          onChange={handleChange}
-        />
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Organizing Club
+          </label>
+          <input
+            type="text"
+            name="organizingClub"
+            value={formData.organizingClub}
+            onChange={handleChange}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+          />
+        </div>
 
-        <TextField
-          select
-          label="Event Date Type"
-          name="eventType"
-          value={formData.eventType}
-          onChange={handleChange}
-        >
-          <MenuItem value="Half Day">Half Day</MenuItem>
-          <MenuItem value="Full Day">Full Day</MenuItem>
-        </TextField>
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Event Date Type
+          </label>
+          <select
+            name="eventType"
+            value={formData.eventType}
+            onChange={handleChange}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white"
+          >
+            <option value="Half Day">Half Day</option>
+            <option value="Full Day">Full Day</option>
+          </select>
+        </div>
 
-        <TextField
-          type="date"
-          name="date"
-          label="Event Date"
-          InputLabelProps={{ shrink: true }}
-          value={formData.date}
-          onChange={handleChange}
-          required
-        />
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Event Date <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+          />
+        </div>
 
-        <TextField label="Hall Name" value={hall?.name || ""} disabled />
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Hall Name
+          </label>
+          <input
+            type="text"
+            value={hall?.name || ""}
+            disabled
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+          />
+        </div>
 
-        <TextField
-          type="time"
-          name="startTime"
-          label="Start Time"
-          InputLabelProps={{ shrink: true }}
-          value={formData.startTime}
-          onChange={handleChange}
-          required
-        />
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Start Time <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="time"
+            name="startTime"
+            value={formData.startTime}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+          />
+        </div>
 
-        <TextField
-          type="time"
-          name="endTime"
-          label="End Time"
-          InputLabelProps={{ shrink: true }}
-          value={formData.endTime}
-          onChange={handleChange}
-          required
-        />
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            End Time <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="time"
+            name="endTime"
+            value={formData.endTime}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+          />
+        </div>
 
-        <TextField label="Institution" value={user?.institute} disabled />
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Institution
+          </label>
+          <input
+            type="text"
+            value={user?.institute}
+            disabled
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+          />
+        </div>
 
-        <TextField label="Department" value={user?.department} disabled />
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Department
+          </label>
+          <input
+            type="text"
+            value={user?.department}
+            disabled
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+          />
+        </div>
 
-        <TextField
-          label="Phone Number"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-        />
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Phone Number
+          </label>
+          <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+          />
+        </div>
 
-        <TextField
-          label="Alternate Number"
-          name="alternatePhone"
-          value={formData.alternatePhone}
-          onChange={handleChange}
-        />
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Alternate Number
+          </label>
+          <input
+            type="tel"
+            name="alternatePhone"
+            value={formData.alternatePhone}
+            onChange={handleChange}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+          />
+        </div>
 
         <div className="col-span-2 text-center mt-6">
-          <Button type="submit" variant="contained" size="large">
+          <button
+            type="submit"
+            className="px-8 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-200"
+          >
             Submit Booking
-          </Button>
+          </button>
         </div>
       </form>
     </div>

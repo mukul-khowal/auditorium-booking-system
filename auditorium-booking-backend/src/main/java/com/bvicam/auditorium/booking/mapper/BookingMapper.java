@@ -18,6 +18,7 @@ public class BookingMapper {
             User user
     ) {
 
+
         return Booking.builder()
                 .hall(hall)
                 .user(user)

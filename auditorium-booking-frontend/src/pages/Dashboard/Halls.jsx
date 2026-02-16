@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import axiosInstance from "../../utils/axiosInstance";
-import { Button, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const Halls = () => {
@@ -44,7 +43,11 @@ const Halls = () => {
   };
 
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      </div>
+    );
   }
 
   return (
@@ -55,12 +58,12 @@ const Halls = () => {
         </h1>
 
         {isAdmin && (
-          <Button
-            variant="contained"
+          <button
             onClick={() => navigate("/dashboard/create-hall")}
+            className="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-200"
           >
             Create Hall
-          </Button>
+          </button>
         )}
       </div>
 
@@ -92,30 +95,29 @@ const Halls = () => {
 
           <div className="flex gap-4 mt-6">
             {!isAdmin && (
-              <Button
-                variant="outlined"
+              <button
                 onClick={() => navigate(`/dashboard/book/${hall.id}`)}
+                className="px-6 py-2 border-2 border-indigo-600 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-50 transition duration-200"
               >
                 Book Now
-              </Button>
+              </button>
             )}
 
             {isAdmin && (
               <>
-                <Button
-                  variant="outlined"
+                <button
                   onClick={() => navigate(`/dashboard/edit-hall/${hall.id}`)}
+                  className="px-6 py-2 border-2 border-indigo-600 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-50 transition duration-200"
                 >
                   Edit
-                </Button>
+                </button>
 
-                <Button
-                  color="error"
-                  variant="outlined"
+                <button
                   onClick={() => handleDelete(hall.id)}
+                  className="px-6 py-2 border-2 border-red-600 text-red-600 font-semibold rounded-lg hover:bg-red-50 transition duration-200"
                 >
                   Delete
-                </Button>
+                </button>
               </>
             )}
           </div>

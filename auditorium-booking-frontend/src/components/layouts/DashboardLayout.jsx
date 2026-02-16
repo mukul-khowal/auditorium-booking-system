@@ -2,15 +2,13 @@ import React, { useContext, useState } from "react";
 import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { getInitials } from "../../utils/helper";
-import { Menu, MenuItem, Avatar } from "@mui/material";
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, clearUser } = useContext(UserContext);
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -73,28 +71,37 @@ const DashboardLayout = () => {
             {location.pathname.split("/")[2] || "Dashboard"}
           </h1>
 
-          <div>
-            <Avatar
-              sx={{ bgcolor: "#4f46e5", cursor: "pointer" }}
-              onClick={(e) => setAnchorEl(e.currentTarget)}
+          <div className="relative">
+            <div
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold cursor-pointer hover:bg-indigo-700 transition"
             >
               {getInitials(user?.name)}
-            </Avatar>
+            </div>
 
-            <Menu
-              anchorEl={anchorEl}
-              open={open}
-              onClose={() => setAnchorEl(null)}
-            >
-              <div className="px-4 py-2">
-                <p className="font-semibold text-sm">{user?.name}</p>
-                <p className="text-xs text-gray-500">{user?.email}</p>
-              </div>
+            {menuOpen && (
+              <>
+                <div
+                  className="fixed inset-0 z-10"
+                  onClick={() => setMenuOpen(false)}
+                ></div>
+                <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-20 py-2">
+                  <div className="px-4 py-3 border-b border-gray-200">
+                    <p className="font-semibold text-sm text-gray-800">
+                      {user?.name}
+                    </p>
+                    <p className="text-xs text-gray-500">{user?.email}</p>
+                  </div>
 
-              <MenuItem onClick={handleLogout} sx={{ color: "red" }}>
-                Logout
-              </MenuItem>
-            </Menu>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </header>
 

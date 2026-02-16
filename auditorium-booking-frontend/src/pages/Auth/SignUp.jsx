@@ -1,14 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  TextField,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-  Button,
-  CircularProgress,
-} from "@mui/material";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import { institutions, InstitutionList } from "../../utils/Institutions.js";
 import { API_PATHS } from "../../utils/apiPaths.js";
@@ -74,8 +65,7 @@ const SignUp = () => {
 
       if (response.status === 201) {
         navigate("/login");
-      };
-      
+      }
     } catch (err) {
       setError(
         err.response?.data?.message || "Registration failed. Please try again.",
@@ -95,141 +85,167 @@ const SignUp = () => {
             </h3>
 
             <div className="grid grid-cols-2 gap-4 mb-4">
-              <TextField
-                fullWidth
-                label="Full Name"
-                name="name"
-                variant="outlined"
-                value={user.name}
-                onChange={handleInputs}
-                required
-              />
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-700">
+                  Full Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={user.name}
+                  onChange={handleInputs}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+                  placeholder="Enter your name"
+                />
+              </div>
 
-              <TextField
-                fullWidth
-                label="Email"
-                name="email"
-                type="email"
-                variant="outlined"
-                value={user.email}
-                onChange={handleInputs}
-                required
-              />
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-700">
+                  Email <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={user.email}
+                  onChange={handleInputs}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+                  placeholder="Enter your email"
+                />
+              </div>
 
-              <TextField
-                fullWidth
-                label="Phone"
-                name="phone"
-                variant="outlined"
-                value={user.phone}
-                onChange={handleInputs}
-              />
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-700">
+                  Phone
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={user.phone}
+                  onChange={handleInputs}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+                  placeholder="Enter your phone"
+                />
+              </div>
 
-              <FormControl fullWidth required>
-                <InputLabel>Your Role</InputLabel>
-                <Select
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-700">
+                  Your Role <span className="text-red-500">*</span>
+                </label>
+                <select
                   name="userType"
                   value={user.userType}
-                  label="Your Role"
                   onChange={handleInputs}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white"
                 >
-                  <MenuItem value="FACULTY">Faculty</MenuItem>
-                  <MenuItem value="ADMIN">Admin</MenuItem>
-                  <MenuItem value="STUDENT">Student</MenuItem>
-                </Select>
-              </FormControl>
+                  <option value="">Select Role</option>
+                  <option value="FACULTY">Faculty</option>
+                  <option value="ADMIN">Admin</option>
+                  <option value="STUDENT">Student</option>
+                </select>
+              </div>
             </div>
 
             {user.userType !== "ADMIN" && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <FormControl fullWidth required>
-                  <InputLabel>Institution</InputLabel>
-                  <Select
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                    Institution <span className="text-red-500">*</span>
+                  </label>
+                  <select
                     name="institution"
                     value={user.institution}
-                    label="Institution"
                     onChange={handleInputs}
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white"
                   >
+                    <option value="">Select Institution</option>
                     {Object.keys(InstitutionList).map((key) => (
-                      <MenuItem key={key} value={key}>
+                      <option key={key} value={key}>
                         {InstitutionList[key]}
-                      </MenuItem>
+                      </option>
                     ))}
-                  </Select>
-                </FormControl>
+                  </select>
+                </div>
 
                 {user.institution && (
-                  <FormControl fullWidth required>
-                    <InputLabel>Department</InputLabel>
-                    <Select
+                  <div>
+                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                      Department <span className="text-red-500">*</span>
+                    </label>
+                    <select
                       name="department"
                       value={user.department}
-                      label="Department"
                       onChange={handleInputs}
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white"
                     >
+                      <option value="">Select Department</option>
                       {institutions
                         .find(
                           (inst) =>
                             inst.name === InstitutionList[user.institution],
                         )
                         ?.departments.map((dept, idx) => (
-                          <MenuItem key={idx} value={dept}>
+                          <option key={idx} value={dept}>
                             {dept}
-                          </MenuItem>
+                          </option>
                         ))}
-                    </Select>
-                  </FormControl>
+                    </select>
+                  </div>
                 )}
               </div>
             )}
 
             <div className="flex flex-col gap-5 mb-6">
-              <TextField
-                fullWidth
-                label="Password"
-                name="password"
-                type="password"
-                variant="outlined"
-                value={user.password}
-                onChange={handleInputs}
-                required
-              />
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-700">
+                  Password <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={user.password}
+                  onChange={handleInputs}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+                  placeholder="Enter your password"
+                />
+              </div>
 
-              <TextField
-                fullWidth
-                label="Confirm Password"
-                name="cpassword"
-                type="password"
-                variant="outlined"
-                value={user.cpassword}
-                onChange={handleInputs}
-                required
-              />
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-700">
+                  Confirm Password <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="password"
+                  name="cpassword"
+                  value={user.cpassword}
+                  onChange={handleInputs}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+                  placeholder="Confirm your password"
+                />
+              </div>
             </div>
 
             {error && (
               <p className="text-red-500 text-sm font-bold mb-4">{error}</p>
             )}
 
-            <Button
-              fullWidth
+            <button
               type="submit"
-              variant="contained"
-              size="large"
               disabled={loading}
-              sx={{
-                backgroundColor: "#4f46e5",
-                "&:hover": { backgroundColor: "#4338ca" },
-                py: 1.5,
-                fontWeight: "bold",
-              }}
+              className="w-full py-3 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               {loading ? (
-                <CircularProgress size={24} color="inherit" />
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
               ) : (
                 "SIGN UP"
               )}
-            </Button>
+            </button>
 
             <p className="mt-4 text-center text-sm text-gray-600">
               Already have an account?{" "}

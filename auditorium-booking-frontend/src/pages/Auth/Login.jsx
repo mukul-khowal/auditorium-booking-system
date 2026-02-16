@@ -1,12 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { TextField, Button, CircularProgress } from "@mui/material";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import { validateEmail } from "../../utils/helper";
 import { UserContext } from "../../context/UserContext";
- 
 
 const Login = () => {
   const { updateUser } = useContext(UserContext);
@@ -67,52 +65,52 @@ const Login = () => {
             </h3>
 
             <div className="flex flex-col gap-5 mb-6">
-              <TextField
-                fullWidth
-                label="Email"
-                name="email"
-                type="email"
-                variant="outlined"
-                value={user.email}
-                onChange={handleInputs}
-                required
-              />
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-700">
+                  Email <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={user.email}
+                  onChange={handleInputs}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+                  placeholder="Enter your email"
+                />
+              </div>
 
-              <TextField
-                fullWidth
-                label="Password"
-                name="password"
-                type="password"
-                variant="outlined"
-                value={user.password}
-                onChange={handleInputs}
-                required
-              />
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-700">
+                  Password <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={user.password}
+                  onChange={handleInputs}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+                  placeholder="Enter your password"
+                />
+              </div>
             </div>
 
             {error && (
               <p className="text-red-500 text-sm font-bold mb-4">{error}</p>
             )}
 
-            <Button
-              fullWidth
+            <button
               type="submit"
-              variant="contained"
-              size="large"
               disabled={loading}
-              sx={{
-                backgroundColor: "#4f46e5",
-                "&:hover": { backgroundColor: "#4338ca" },
-                py: 1.5,
-                fontWeight: "bold",
-              }}
+              className="w-full py-3 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               {loading ? (
-                <CircularProgress size={24} color="inherit" />
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
               ) : (
                 "LOGIN"
               )}
-            </Button>
+            </button>
 
             <p className="mt-4 text-center text-sm text-gray-600">
               Don’t have an account?{" "}
