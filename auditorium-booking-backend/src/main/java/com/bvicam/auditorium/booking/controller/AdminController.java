@@ -1,6 +1,5 @@
 package com.bvicam.auditorium.booking.controller;
 
-import com.bvicam.auditorium.booking.dto.response.AuthResponseDto;
 import com.bvicam.auditorium.booking.dto.response.UserResponseDto;
 import com.bvicam.auditorium.booking.mapper.AuthMapper;
 import com.bvicam.auditorium.booking.model.Role;

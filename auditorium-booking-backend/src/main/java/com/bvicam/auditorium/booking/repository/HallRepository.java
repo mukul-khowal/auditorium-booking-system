@@ -10,9 +10,5 @@ public interface HallRepository extends JpaRepository<Hall, Long> {
 
     List<Hall> findByEnabledTrue();
 
-    List<Hall> findByCreatedBy(User user);
-
-    List<Hall> findByCreatedByAndEnabledTrue(User user);
-
     boolean existsByName(String name);
 }

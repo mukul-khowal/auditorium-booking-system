@@ -8,60 +8,83 @@ import { Toaster } from "react-hot-toast";
 import UserProvider, { UserContext } from "./context/UserContext";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import Halls from "./pages/Dashboard/Halls";
-import Bookings from "./pages/Dashboard/Bookings";
 import CreateHall from "./pages/Dashboard/CreateHall";
 import EditHall from "./pages/Dashboard/EditHall";
+import MyBookings from "./pages/Dashboard/MyBookings";
+import AllBookings from "./pages/Dashboard/AllBookings";
+import BookHall from "./pages/Dashboard/BookHall";
 
 const App = () => {
   return (
     <UserProvider>
-      <div>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Root />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Root />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Home />} />
+            <Route path="halls" element={<Halls />} />
+
             <Route
-              path="/dashboard"
+              path="create-hall"
               element={
-                <ProtectedRoute>
-                  <DashboardLayout />
+                <ProtectedRoute allowedRoles={["ADMIN"]}>
+                  <CreateHall />
                 </ProtectedRoute>
               }
-            >
-              <Route index element={<Home />} />
-              <Route path="halls" element={<Halls />} />
-              <Route path="bookings" element={<Bookings />} />
-              <Route
-                path="create-hall"
-                element={
-                  <ProtectedRoute allowedRoles={["ADMIN"]}>
-                    <CreateHall />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="edit-hall/:id"
-                element={
-                  <ProtectedRoute allowedRoles={["ADMIN"]}>
-                    <EditHall />
-                  </ProtectedRoute>
-                }
-              />
-            </Route>
+            />
 
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-      <Toaster
-        toastOptions={{
-          className: "",
-          style: {
-            fontSize: "13px",
-          },
-        }}
-      />
+            <Route
+              path="edit-hall/:id"
+              element={
+                <ProtectedRoute allowedRoles={["ADMIN"]}>
+                  <EditHall />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="my-bookings"
+              element={
+                <ProtectedRoute allowedRoles={["FACULTY", "STUDENT"]}>
+                  <MyBookings />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="all-bookings"
+              element={
+                <ProtectedRoute allowedRoles={["ADMIN"]}>
+                  <AllBookings />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="book/:hallId"
+              element={
+                <ProtectedRoute allowedRoles={["FACULTY", "STUDENT"]}>
+                  <BookHall />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+
+      <Toaster />
     </UserProvider>
   );
 };
@@ -69,30 +92,20 @@ const App = () => {
 export default App;
 
 const Root = () => {
-  //check if token exists in localStorage
-  const isAuthenticated = !!localStorage.getItem("token");
+  const { user, loading } = useContext(UserContext);
 
-  return isAuthenticated ? (
-    <Navigate to="/dashboard" />
-  ) : (
-    <Navigate to="/login" />
-  );
+  if (loading) return null;
+  return user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />;
 };
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-  const token = localStorage.getItem("token");
   const { user, loading } = useContext(UserContext);
 
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
+  if (loading) return null;
+  if (!user) return <Navigate to="/login" />;
 
-  if (loading) {
-    return <div style={{ padding: 40 }}>Loading...</div>;
-  }
-
-  if (allowedRoles && !allowedRoles.includes(user?.role?.toUpperCase())) {
-    return <Navigate to="/dashboard" replace />;
+  if (allowedRoles && !allowedRoles.includes(user.role?.toUpperCase())) {
+    return <Navigate to="/dashboard" />;
   }
 
   return children;
