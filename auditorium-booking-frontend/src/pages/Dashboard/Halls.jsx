@@ -91,7 +91,14 @@ const Halls = () => {
           </div>
 
           <div className="flex gap-4 mt-6">
-            {!isAdmin && <Button variant="outlined">Book Now</Button>}
+            {!isAdmin && (
+              <Button
+                variant="outlined"
+                onClick={() => navigate(`/dashboard/book/${hall.id}`)}
+              >
+                Book Now
+              </Button>
+            )}
 
             {isAdmin && (
               <>

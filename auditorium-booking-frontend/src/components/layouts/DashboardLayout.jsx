@@ -25,9 +25,13 @@ const DashboardLayout = () => {
     <div className="flex h-screen bg-gray-100">
       <aside className="w-64 bg-white shadow-lg flex flex-col justify-between">
         <div>
-          <div className="p-6 text-2xl font-bold text-indigo-600">
-            Auditorium
-          </div>
+          {user.role === "ADMIN" ? (
+            <div className="p-6 text-2xl font-bold text-red-600">ADMIN</div>
+          ) : (
+            <div className="p-6 text-2xl font-bold text-indigo-600">
+              Auditorium
+            </div>
+          )}
 
           <nav className="flex flex-col gap-2 px-4">
             <button
@@ -44,12 +48,21 @@ const DashboardLayout = () => {
               Halls
             </button>
 
-            <button
-              onClick={() => navigate("/dashboard/bookings")}
-              className={`text-left px-4 py-2 rounded-lg hover:bg-indigo-50 ${isActive("/dashboard/bookings")}`}
-            >
-              Bookings
-            </button>
+            {user?.role === "ADMIN" ? (
+              <button
+                onClick={() => navigate("/dashboard/all-bookings")}
+                className={`text-left px-4 py-2 rounded-lg hover:bg-indigo-50 ${isActive("/dashboard/all-bookings")}`}
+              >
+                All Bookings
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate("/dashboard/my-bookings")}
+                className={`text-left px-4 py-2 rounded-lg hover:bg-indigo-50 ${isActive("/dashboard/my-bookings")}`}
+              >
+                My Bookings
+              </button>
+            )}
           </nav>
         </div>
       </aside>

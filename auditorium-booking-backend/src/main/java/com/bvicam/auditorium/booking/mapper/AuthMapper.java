@@ -17,7 +17,6 @@ public class AuthMapper {
                 .role(dto.getRole())
                 .institute(dto.getInstitute())
                 .department(dto.getDepartment())
-                // password set in service (encoded)
                 .enabled(false)
                 .build();
     }
